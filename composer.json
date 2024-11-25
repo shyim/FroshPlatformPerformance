@@ -1,0 +1,21 @@
+{
+    "name": "frosh/performance",
+    "description": "Some plugin description",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "require": {
+        "shopware/core": "~6.6"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Frosh\\Performance\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "Frosh\\Performance\\FroshPlatformPerformance",
+        "label": {
+            "en-GB": "Performance"
+        }
+    }
+}

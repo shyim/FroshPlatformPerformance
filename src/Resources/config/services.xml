@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="Shopware\Core\Framework\Adapter\Storage\AbstractKeyValueStorage" class="Frosh\Performance\Disabled\ArrayKeyValueStorage" public="true"/>
+
+        <service id="Shopware\Core\Framework\Adapter\Twig\NamespaceHierarchy\BundleHierarchyBuilder" class="Frosh\Performance\Component\BundleHierarchyBuilder">
+            <argument type="service" id="kernel"/>
+
+            <tag name="shopware.twig.hierarchy_builder" priority="1000"/>
+        </service>
+
+        <service id="Shopware\Core\Content\Seo\SeoUrlPlaceholderHandlerInterface" class="Frosh\Performance\Component\SeoUrlPlaceholderHandler" public="true">
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="router.default"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+        <service id="Shopware\Core\System\CustomEntity\CustomEntityRegistrar" class="Frosh\Performance\Disabled\CustomEntityRegistrar" public="true"/>
+
+        <service id="Shopware\Core\Framework\App\ActiveAppsLoader" class="Frosh\Performance\Disabled\ActiveAppsLoader"/>
+
+        <service id="Shopware\Core\Checkout\Cart\CartRuleLoader" class="Frosh\Performance\Component\CartRuleLoader">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\CartPersister"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Processor"/>
+            <argument type="service" id="logger"/>
+            <argument type="service" id="cache.object"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\RuleLoader"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Tax\TaxDetector"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\CartFactory"/>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Cache\EntityCacheKeyGenerator"/>
+
+            <tag name="kernel.reset" method="reset"/>
+        </service>
+
+        <service id="Shopware\Core\Framework\App\Checkout\Gateway\AppCheckoutGateway" class="Frosh\Performance\Disabled\AppCheckoutGateway" />
+
+        <service id="Shopware\Core\Framework\Script\Execution\ScriptExecutor" class="Frosh\Performance\Disabled\ScriptExecutor" public="true"/>
+
+        <service id="Shopware\Core\Checkout\Cart\TaxProvider\TaxProviderProcessor" class="Frosh\Performance\Disabled\TaxProviderProcessor"/>
+
+        <service id="Frosh\Performance\Component\Twig\TwigExtension">
+            <argument type="service" id="twig"/>
+            <tag name="twig.extension"/>
+        </service>
+
+        <service id="Frosh\Performance\Component\BreadcrumbToCategoryRoute" decorates="Shopware\Core\Content\Category\SalesChannel\CategoryRoute">
+            <argument type="service" id=".inner"/>
+            <argument type="service" id="Shopware\Core\Content\Category\Service\CategoryBreadcrumbBuilder"/>
+            <argument type="service" id="category.repository"/>
+        </service>
+
+        <service id="Frosh\Performance\Component\BreadcrumbToProductRoute" decorates="Shopware\Core\Content\Product\SalesChannel\Detail\ProductDetailRoute">
+            <argument type="service" id=".inner"/>
+            <argument type="service" id="Shopware\Core\Content\Category\Service\CategoryBreadcrumbBuilder"/>
+            <argument type="service" id="category.repository"/>
+        </service>
+    </services>
+</container>

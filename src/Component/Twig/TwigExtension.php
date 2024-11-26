@@ -15,7 +15,7 @@ class TwigExtension extends AbstractExtension
     {
         return [
             new FeatureCallOptimizerNodeVisitor(),
-            new WhitespaceNodeVisitor(),
+//            new WhitespaceNodeVisitor(),
         ];
     }
 
